@@ -11,18 +11,31 @@
 
 	<properties>
 		<tomcat.version>8.0.30</tomcat.version>
-		<weld.version>2.3.2.Final</weld.version>
+		<weld.version>2.1.2.Final</weld.version>
 		<resteasy.version>3.0.12.Final</resteasy.version>
 	</properties>
 
 	<dependencies>
+
 		<!-- Weld -->
 		<dependency>
 			<groupId>org.jboss.weld.servlet</groupId>
 			<artifactId>weld-servlet</artifactId>
 			<version>${weld.version}</version>
 		</dependency>
-
+		
+		<!-- If you want to initialize Weld in your main method you need these -->
+		<dependency>
+			<groupId>org.jboss.weld.se</groupId>
+			<artifactId>weld-se</artifactId>
+			<version>${weld.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>el-impl</artifactId>
+			<version>2.2</version>
+		</dependency>
+		
 		<!-- RESTEasy -->
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
@@ -33,6 +46,12 @@
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-cdi</artifactId>
 			<version>${resteasy.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jboss.resteasy</groupId>
+					<artifactId>resteasy-jaxrs</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
