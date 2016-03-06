@@ -40,6 +40,7 @@ public class JmsMessageProducer {
 			final TextMessage newMessage = session.createTextMessage();
 			newMessage.setText(message);
 			producer.send(newMessage);
+			session.commit();
 		} finally {
 			if (connection != null) {
 				try {
