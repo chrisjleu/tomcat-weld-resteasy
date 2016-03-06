@@ -20,7 +20,7 @@ Then you may run (from the project root directory) with:
 
 You can of course run from an IDE. Just locate `launch.Main.java`.
 
-Go to [http://localhost:8080/](http://localhost:8080/) to start with the home page.
+Go to [http://localhost:8889/](http://localhost:8889/) to start with the home page.
 
 ## Resources
 Some reasonably essential reading:
