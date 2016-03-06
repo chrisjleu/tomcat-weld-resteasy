@@ -1,6 +1,20 @@
 <Context>
-    <Resource name="BeanManager" 
-        auth="Container"
-        type="javax.enterprise.inject.spi.BeanManager"
-        factory="org.jboss.weld.resources.ManagerObjectFactory" />
+	<Resource name="BeanManager" auth="Container"
+		type="javax.enterprise.inject.spi.BeanManager" 
+		factory="org.jboss.weld.resources.ManagerObjectFactory" />
+
+	<Resource name="jms/ConnectionFactory" auth="Container"
+		type="org.apache.activemq.ActiveMQConnectionFactory" 
+		description="JMS Connection Factory"
+		factory="org.apache.activemq.jndi.JNDIReferenceFactory" 
+		brokerName="LocalActiveMQBroker"
+		brokerURL="tcp://localhost:61616?jms.rmIdFromConnectionId=true"
+		userName="defaultUser"
+		password="defaultPassword" />
+	
+	<Resource name="jms/EventInQueue" auth="Container"
+		type="org.apache.activemq.command.ActiveMQQueue" 
+		description="Send messages to this queue"
+		factory="org.apache.activemq.jndi.JNDIReferenceFactory" 
+		physicalName="EventInQueue" />
 </Context>

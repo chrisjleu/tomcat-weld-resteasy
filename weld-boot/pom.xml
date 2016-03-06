@@ -23,7 +23,7 @@
 			<artifactId>weld-servlet</artifactId>
 			<version>${weld.version}</version>
 		</dependency>
-		
+
 		<!-- If you want to initialize Weld in your main method you need these -->
 		<dependency>
 			<groupId>org.jboss.weld.se</groupId>
@@ -35,7 +35,7 @@
 			<artifactId>el-impl</artifactId>
 			<version>2.2</version>
 		</dependency>
-		
+
 		<!-- RESTEasy -->
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
@@ -92,7 +92,26 @@
 			<artifactId>tomcat-jsp-api</artifactId>
 			<version>${tomcat.version}</version>
 		</dependency>
+
+		<!-- Needed only for JMS -->
+		<dependency>
+			<groupId>org.apache.geronimo.specs</groupId>
+			<artifactId>geronimo-jms_1.1_spec</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-client</artifactId>
+			<version>5.13.1</version>
+		</dependency>
+		<dependency>
+			<groupId>net.examples</groupId>
+			<artifactId>jms</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 	</dependencies>
+
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
@@ -114,6 +133,13 @@
 					<programs>
 						<program>
 							<mainClass>launch.Main</mainClass>
+							<jvmSettings>
+								<initialMemorySize>256m</initialMemorySize>
+								<maxMemorySize>1024m</maxMemorySize>
+								<extraArguments>
+									<extraArgument>-agentlib:jdwp=transport=dt_socket,address=8888,server=y,suspend=n</extraArgument>
+								</extraArguments>
+							</jvmSettings>
 							<name>webapp</name>
 						</program>
 					</programs>
