@@ -10,7 +10,7 @@ Nevertheless, this application demonstrates more or less the minimum needed to h
 
 ## Build and package
 
-Build and package with the plugin already provided in the POM:
+From the weld-boot project fodler, build and package with the plugin already provided in the POM:
 
 `mvn package`
 
