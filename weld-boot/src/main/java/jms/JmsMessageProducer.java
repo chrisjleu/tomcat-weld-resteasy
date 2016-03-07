@@ -22,8 +22,8 @@ public class JmsMessageProducer {
 	@Resource(mappedName = "java:comp/env/jms/ConnectionFactory")
 	private ConnectionFactory connectionFactory;
 
-	@Resource(mappedName = "java:comp/env/jms/EventInQueue")
-	private Queue eventInQueue;
+	@Resource(mappedName = "java:comp/env/jms/CommandQueue")
+	private Queue commandQueue;
 
 	/**
 	 * Send a command via JMS. Opens and closes the connection per invocation of
@@ -38,10 +38,11 @@ public class JmsMessageProducer {
 		try {
 			connection = connectionFactory.createConnection();
 			session = connection.createSession(TRANSACTIONAL_ON, Session.AUTO_ACKNOWLEDGE);
-
-			final MessageProducer producer = session.createProducer(this.eventInQueue);
-			final ObjectMessage newMessage = session.createObjectMessage();
-			newMessage.setObject(command);
+			final MessageProducer producer = session.createProducer(this.commandQueue);
+			final TextMessage newMessage = session.createTextMessage();
+			newMessage.setText(command.getInstruction());
+			newMessage.setStringProperty("user", command.getUser());
+			newMessage.setStringProperty("type", command.getType());
 			producer.send(newMessage);
 			session.commit();
 		} finally {
@@ -73,7 +74,7 @@ public class JmsMessageProducer {
 			connection = connectionFactory.createConnection();
 			session = connection.createSession(TRANSACTIONAL_ON, Session.AUTO_ACKNOWLEDGE);
 
-			final MessageProducer producer = session.createProducer(this.eventInQueue);
+			final MessageProducer producer = session.createProducer(this.commandQueue);
 			final TextMessage newMessage = session.createTextMessage();
 			newMessage.setText(text);
 			producer.send(newMessage);

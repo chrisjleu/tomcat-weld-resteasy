@@ -11,10 +11,10 @@
 		brokerURL="tcp://localhost:61616?jms.rmIdFromConnectionId=true"
 		userName="defaultUser"
 		password="defaultPassword" />
-	
-	<Resource name="jms/EventInQueue" auth="Container"
+
+	<Resource name="jms/CommandQueue" auth="Container"
 		type="org.apache.activemq.command.ActiveMQQueue" 
-		description="Send messages to this queue"
+		description="Send commands to this queue"
 		factory="org.apache.activemq.jndi.JNDIReferenceFactory" 
 		physicalName="EventInQueue" />
 </Context>

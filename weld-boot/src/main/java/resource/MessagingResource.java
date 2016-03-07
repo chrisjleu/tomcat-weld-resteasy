@@ -59,6 +59,10 @@ public class MessagingResource {
 	@Path("/detailed")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response complexCommand(Command command) {
+		if (command == null) {
+			return Response.status(Status.BAD_REQUEST).entity("Missing command").build();
+		}
+
 		try {
 			jmsMessageProducer.sendCommandMessage(command);
 			return Response.status(201).entity(command.toString()).build();

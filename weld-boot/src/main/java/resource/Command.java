@@ -24,22 +24,31 @@ public class Command implements Serializable {
 	@JsonProperty("machine")
 	String machine;
 
+	@JsonProperty("type")
+	String type;
+
 	@JsonProperty("instruction")
 	String instruction;
 
 	@JsonCreator
 	public Command(@JsonProperty("id") String id, @JsonProperty("user") String user,
-			@JsonProperty("machine") String machine, @JsonProperty("instruction") String instruction) {
+			@JsonProperty("machine") String machine, @JsonProperty("type") String type,
+			@JsonProperty("instruction") String instruction) {
 		super();
 		this.id = id;
 		this.user = user;
 		this.machine = machine;
+		this.type = type;
 		this.instruction = instruction;
 	}
 
 	@Override
 	public String toString() {
-		return new StringBuilder().append(id).append("|").append(user).append("|").append(machine).append("|")
+		return new StringBuilder()
+				.append(id).append("|")
+				.append(user).append("|")
+				.append(machine).append("|")
+				.append(type).append("|")
 				.append(instruction).toString();
 	}
 
@@ -53,6 +62,10 @@ public class Command implements Serializable {
 
 	public String getMachine() {
 		return machine;
+	}
+	
+	public String getType() {
+		return type;
 	}
 
 	public String getInstruction() {

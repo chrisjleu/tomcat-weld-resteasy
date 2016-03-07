@@ -16,7 +16,7 @@
 
 	<resource-env-ref>
 		<description>JMS Queue</description>
-		<resource-env-ref-name>jms/EventInQueue</resource-env-ref-name>
+		<resource-env-ref-name>jms/CommandQueue</resource-env-ref-name>
 		<resource-env-ref-type>org.apache.activemq.command.ActiveMQQueue</resource-env-ref-type>
 	</resource-env-ref>
 
