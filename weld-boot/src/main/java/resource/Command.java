@@ -1,12 +1,19 @@
 package resource;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Encapsulates a command that must be executed.
  */
-public class Command {
+public class Command implements Serializable {
+
+	/**
+	 * Version 1.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@JsonProperty("id")
 	String id;

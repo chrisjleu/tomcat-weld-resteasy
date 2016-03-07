@@ -32,11 +32,12 @@ public class MessagingResource {
 	 */
 	@POST
 	@Path("/simple/{instruction}")
-	public void simpleCommand(@PathParam("instruction") String instruction) {
+	public Response simpleCommand(@PathParam("instruction") String instruction) {
 		try {
-			jmsMessageProducer.sendJmsMessage(instruction);
+			jmsMessageProducer.sendTextMessage(instruction);
+			return Response.status(201).entity(instruction).build();
 		} catch (JMSException e) {
-			e.printStackTrace();
+			return Response.status(Status.BAD_GATEWAY).entity(e.getMessage()).build();
 		}
 	}
 
@@ -59,7 +60,7 @@ public class MessagingResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response complexCommand(Command command) {
 		try {
-			jmsMessageProducer.sendJmsMessage(command.toString());
+			jmsMessageProducer.sendCommandMessage(command);
 			return Response.status(201).entity(command.toString()).build();
 		} catch (JMSException e) {
 			return Response.status(Status.BAD_GATEWAY).entity(e.getMessage()).build();

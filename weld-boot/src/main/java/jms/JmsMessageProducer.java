@@ -5,9 +5,12 @@ import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;
+import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 import javax.jms.Session;
 import javax.jms.TextMessage;
+
+import resource.Command;
 
 /**
  * Sends JMS messages to a Queue.
@@ -23,13 +26,47 @@ public class JmsMessageProducer {
 	private Queue eventInQueue;
 
 	/**
+	 * Send a command via JMS. Opens and closes the connection per invocation of
+	 * this method.
+	 * 
+	 * @param command
+	 * @throws JMSException
+	 */
+	public void sendCommandMessage(Command command) throws JMSException {
+		Connection connection = null;
+		Session session = null;
+		try {
+			connection = connectionFactory.createConnection();
+			session = connection.createSession(TRANSACTIONAL_ON, Session.AUTO_ACKNOWLEDGE);
+
+			final MessageProducer producer = session.createProducer(this.eventInQueue);
+			final ObjectMessage newMessage = session.createObjectMessage();
+			newMessage.setObject(command);
+			producer.send(newMessage);
+			session.commit();
+		} finally {
+			if (connection != null) {
+				try {
+					if (session != null) {
+						session.close();
+					}
+					connection.stop();
+					connection.close();
+				} catch (JMSException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	/**
 	 * Drop a JMS message onto a queue. Opens and closes the connection per
 	 * invocation of this method.
 	 * 
-	 * @param message
+	 * @param text
 	 * @throws JMSException
 	 */
-	public void sendJmsMessage(String message) throws JMSException {
+	public void sendTextMessage(String text) throws JMSException {
 		Connection connection = null;
 		Session session = null;
 		try {
@@ -38,7 +75,7 @@ public class JmsMessageProducer {
 
 			final MessageProducer producer = session.createProducer(this.eventInQueue);
 			final TextMessage newMessage = session.createTextMessage();
-			newMessage.setText(message);
+			newMessage.setText(text);
 			producer.send(newMessage);
 			session.commit();
 		} finally {
