@@ -5,7 +5,6 @@ import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;
-import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 import javax.jms.Session;
 import javax.jms.TextMessage;
@@ -17,7 +16,7 @@ import resource.Command;
  */
 public class JmsMessageProducer {
 
-	private static final boolean TRANSACTIONAL_ON = true;
+	private static final boolean TRANSACTIONAL = false;
 
 	@Resource(mappedName = "java:comp/env/jms/ConnectionFactory")
 	private ConnectionFactory connectionFactory;
@@ -26,8 +25,12 @@ public class JmsMessageProducer {
 	private Queue commandQueue;
 
 	/**
-	 * Send a command via JMS. Opens and closes the connection per invocation of
-	 * this method.
+	 * Send a command via JMS.
+	 * 
+	 * <p>
+	 * Note: Opens and closes the connection per invocation of this method which,
+	 * when run outside a JavaEE container, is not very efficient.
+	 * </p>
 	 * 
 	 * @param command
 	 * @throws JMSException
@@ -37,48 +40,22 @@ public class JmsMessageProducer {
 		Session session = null;
 		try {
 			connection = connectionFactory.createConnection();
-			session = connection.createSession(TRANSACTIONAL_ON, Session.AUTO_ACKNOWLEDGE);
-			final MessageProducer producer = session.createProducer(this.commandQueue);
+			session = connection.createSession(TRANSACTIONAL, Session.AUTO_ACKNOWLEDGE);
+
+			// Construct a JMS "TextMessage"
 			final TextMessage newMessage = session.createTextMessage();
-			newMessage.setText(command.getInstruction());
-			newMessage.setStringProperty("user", command.getUser());
+			newMessage.setStringProperty("issuer", command.getIssuer());
 			newMessage.setStringProperty("type", command.getType());
-			producer.send(newMessage);
-			session.commit();
-		} finally {
-			if (connection != null) {
-				try {
-					if (session != null) {
-						session.close();
-					}
-					connection.stop();
-					connection.close();
-				} catch (JMSException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+			newMessage.setText(command.getPayload());
 
-	/**
-	 * Drop a JMS message onto a queue. Opens and closes the connection per
-	 * invocation of this method.
-	 * 
-	 * @param text
-	 * @throws JMSException
-	 */
-	public void sendTextMessage(String text) throws JMSException {
-		Connection connection = null;
-		Session session = null;
-		try {
-			connection = connectionFactory.createConnection();
-			session = connection.createSession(TRANSACTIONAL_ON, Session.AUTO_ACKNOWLEDGE);
-
+			// Send the message
 			final MessageProducer producer = session.createProducer(this.commandQueue);
-			final TextMessage newMessage = session.createTextMessage();
-			newMessage.setText(text);
 			producer.send(newMessage);
-			session.commit();
+
+			if (TRANSACTIONAL) {
+				// JavaEE containers would manage this
+				session.commit();
+			}
 		} finally {
 			if (connection != null) {
 				try {
@@ -93,4 +70,5 @@ public class JmsMessageProducer {
 			}
 		}
 	}
+
 }

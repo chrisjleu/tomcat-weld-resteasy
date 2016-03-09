@@ -2,11 +2,15 @@ package resource;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotNull;
+
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Encapsulates a command that must be executed.
+ * A general purpose command.
  */
 public class Command implements Serializable {
 
@@ -15,61 +19,44 @@ public class Command implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty("id")
-	String id;
-
-	@JsonProperty("user")
-	String user;
-
-	@JsonProperty("machine")
-	String machine;
+	@JsonProperty("issuer")
+	@NotNull
+	String issuer;
 
 	@JsonProperty("type")
+	@NotNull
 	String type;
 
-	@JsonProperty("instruction")
-	String instruction;
+	@JsonProperty("payload")
+	@NotNull
+	String payload;
 
 	@JsonCreator
-	public Command(@JsonProperty("id") String id, @JsonProperty("user") String user,
-			@JsonProperty("machine") String machine, @JsonProperty("type") String type,
-			@JsonProperty("instruction") String instruction) {
+	public Command(
+			@JsonProperty("user") String issuer, 
+			@JsonProperty("type") String type,
+			@JsonProperty("payload") String payload) {
 		super();
-		this.id = id;
-		this.user = user;
-		this.machine = machine;
+		this.issuer = issuer;
 		this.type = type;
-		this.instruction = instruction;
+		this.payload = payload;
 	}
 
 	@Override
 	public String toString() {
-		return new StringBuilder()
-				.append(id).append("|")
-				.append(user).append("|")
-				.append(machine).append("|")
-				.append(type).append("|")
-				.append(instruction).toString();
+		return ToStringBuilder.reflectionToString(this);
 	}
 
-	public String getId() {
-		return id;
+	public String getIssuer() {
+		return issuer;
 	}
 
-	public String getUser() {
-		return user;
-	}
-
-	public String getMachine() {
-		return machine;
-	}
-	
 	public String getType() {
 		return type;
 	}
 
-	public String getInstruction() {
-		return instruction;
+	public String getPayload() {
+		return payload;
 	}
 
 }
