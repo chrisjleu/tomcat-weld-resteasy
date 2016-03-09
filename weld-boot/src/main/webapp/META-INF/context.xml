@@ -3,12 +3,13 @@
 		type="javax.enterprise.inject.spi.BeanManager" 
 		factory="org.jboss.weld.resources.ManagerObjectFactory" />
 
+	<!-- External provider URI: brokerURL="tcp://localhost:61616?jms.rmIdFromConnectionId=true" -->
 	<Resource name="jms/ConnectionFactory" auth="Container"
 		type="org.apache.activemq.ActiveMQConnectionFactory" 
 		description="JMS Connection Factory"
 		factory="org.apache.activemq.jndi.JNDIReferenceFactory" 
 		brokerName="LocalActiveMQBroker"
-		brokerURL="tcp://localhost:61616?jms.rmIdFromConnectionId=true"
+		brokerURL="vm://localhost?broker.persistent=false"
 		userName="defaultUser"
 		password="defaultPassword" />
 

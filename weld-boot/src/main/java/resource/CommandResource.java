@@ -28,7 +28,7 @@ public class CommandResource {
 	 * Send command.
 	 * 
 	 * <pre>
-	 * curl -v -X POST -H "Content-Type: application/json --data "@/cygdrive/c/Temp/command.json" http://localhost:8889/api/command"
+	 * curl -v -X POST -H "Content-Type: application/json" --data "@/cygdrive/c/Temp/command.json" http://localhost:8889/api/command
 	 * 
 	 * {
 	 *   "issuer": "1234567",
