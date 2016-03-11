@@ -10,7 +10,7 @@ Nevertheless, this application demonstrates more or less the minimum needed to h
 
 ## Build and package
 
-Build and package with the plugin already provided in the POM:
+From the weld-boot project fodler, build and package with the plugin already provided in the POM:
 
 `mvn package`
 
@@ -20,7 +20,7 @@ Then you may run (from the project root directory) with:
 
 You can of course run from an IDE. Just locate `launch.Main.java`.
 
-Go to [http://localhost:8080/](http://localhost:8080/) to start with the home page.
+Go to [http://localhost:8889/](http://localhost:8889/) to start with the home page.
 
 ## Resources
 Some reasonably essential reading:
@@ -35,3 +35,4 @@ Notes on the experience:
 - [RESTEasy-CDI Integration](https://developer.jboss.org/wiki/RESTEasy-CDIIntegration) gives a clue about getting RESTEasy and CDI working on Pre-Servlet 3 containers. It was necessary to have a `web.xml` in place in order for JAX-RS managed entities to permit injection of CDI managed resources. [Chapter 40. CDI Integration](https://docs.jboss.org/resteasy/docs/2.0.0.GA/userguide/html/CDI.html) explains why CDI and JAX-RS are not compatible by default and thus it becomes necessary to bridge the gap with the [resteasy-cdi](http://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-cdi) module. 
 - Weld is supposed to work with Jetty but documentation and online material seems to be a little thin. Most CDI users are likely to be [enterprise customers](https://en.wikipedia.org/wiki/Enterprise_software) deploying to JBoss or some other JEE container and so most of the material online will help with these cases. Very little on Jetty but more on Tomcat so go with Tomcat, which can be embedded just as Jetty can. 
 - Example in the [Weld documentation for embedding Tomcat](https://docs.jboss.org/weld/reference/latest/en-US/html/environments.html#_embedded_tomcat) just did not work. `org.jboss.weld.environment.servlet.Listener` is not required at all despite the fact that it states "With embedded Tomcat it is necessary to register Weld's listener programmatically". But then notice how the pertinent line in the code example is commented out. It almost looks like a mistake and therefore tempting to uncomment. If you copied and pasted blindly you would be fine but in any case it appears not to be required. It was necessary however to have `/WEB-INF/beans.xml` and `/META-INF/context.xml` in place.
+- JMS with JNDI documentation sparse for Tomcat and embedded Tomcat at that. Need to configure web.xml and context.xml and enable JNDI (tomcat.enableNaming()).

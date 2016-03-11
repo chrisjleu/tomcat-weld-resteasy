@@ -52,7 +52,7 @@ public class Main {
 	static void setListeningPort(final Tomcat tomcat) {
 		String webPort = System.getenv("PORT");
 		if (webPort == null || webPort.isEmpty()) {
-			webPort = "8080";
+			webPort = "8889";
 		}
 		tomcat.setPort(Integer.valueOf(webPort));
 	}
@@ -72,6 +72,10 @@ public class Main {
 
 		ctx.addApplicationListener(Listener.class.getName());
 
+		// Enable JNDI InitialContext
+		tomcat.enableNaming();
+
+		// Start server
 		tomcat.start();
 		tomcat.getServer().await();
 	}
