@@ -1,0 +1,13 @@
+textarea {
+    width: 400px;
+    height: 200px;
+}
+
+input[type="text"] {
+    width: 400px;
+}
+
+.block {
+	display: block;
+	margin: 5px 0px 5px;
+}

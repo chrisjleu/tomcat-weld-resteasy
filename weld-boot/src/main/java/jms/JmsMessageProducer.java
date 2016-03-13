@@ -9,7 +9,7 @@ import javax.jms.Queue;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
-import resource.Command;
+import domain.Command;
 
 /**
  * Sends JMS messages to a Queue.

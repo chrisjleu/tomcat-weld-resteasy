@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=UTF-8>
+<title>WebSocket Chat</title>
+<link rel="stylesheet" type="text/css" href="css/chat.css">
+<script>
+	var ws = new WebSocket("ws://localhost:8889/chat");
+	ws.onopen = function() {
+	};
+	ws.onmessage = function(message) {
+		document.getElementById("chatlog").textContent += message.data + "\n";
+	};
+	function postToServer() {
+		ws.send(document.getElementById("msg").value);
+		document.getElementById("msg").value = "";
+	}
+	function closeConnect() {
+		ws.close();
+	}
+	function checkSubmit(e) {
+		if (e && e.keyCode == 13) {
+			postToServer();
+		}
+	}
+</script>
+</head>
+<body>
+	<button type="submit" id=connectButton onClick="closeConnect()">Connect</button>
+	<button type="submit" id="disconnectButton" onClick="closeConnect()">End</button>
+	<div class="block">
+		<textarea id="chatlog" readonly></textarea>
+	</div>
+	<input id="msg" type="text" onkeypress="return checkSubmit(event)" />
+	<button type="submit" id="sendButton" onClick="postToServer()">Send!</button>
+</body>
+</html>

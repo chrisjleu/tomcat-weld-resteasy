@@ -59,6 +59,18 @@
 			<version>${resteasy.version}</version>
 		</dependency>
 
+		<!-- JSON parsing -->
+		<dependency>
+			<groupId>javax.json</groupId>
+			<artifactId>javax.json-api</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.json</artifactId>
+			<version>1.0.4</version>
+		</dependency>
+		
 		<!-- Tomcat -->
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
@@ -93,6 +105,13 @@
 			<version>${tomcat.version}</version>
 		</dependency>
 
+		<!-- Websocket -->
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-websocket</artifactId>
+			<version>8.0.32</version>
+		</dependency>
+
 		<!-- Needed only for JMS -->
 		<dependency>
 			<groupId>org.apache.geronimo.specs</groupId>
@@ -103,11 +122,6 @@
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-client</artifactId>
 			<version>5.13.1</version>
-		</dependency>
-		<dependency>
-			<groupId>net.examples</groupId>
-			<artifactId>jms</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 
 		<!-- Logging -->

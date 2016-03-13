@@ -1,4 +1,4 @@
-package resource;
+package domain;
 
 import java.io.Serializable;
 
